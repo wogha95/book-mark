@@ -1,5 +1,6 @@
 # ⭐book-mark
 Mobile, Tablet, Desktop, Public PC 등 다양한 환경에서 자신만의 즐겨찾기를 이용하기 위해 개발하였습니다.
+해당 프로젝트의 Front-End 부분입니다.
 
 <br>
 
