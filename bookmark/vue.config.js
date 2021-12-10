@@ -11,5 +11,5 @@ module.exports = {
       }
     },
   },
-  outputDir: '../backend/public'
+  outputDir: '../../book-mark-server/server/public'
 }
