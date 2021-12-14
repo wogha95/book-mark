@@ -9,13 +9,13 @@
             </h2>
             <input type="text" class="form-control edit-name" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
             <div class="copy-more">
-              <button class="btn copy-btn"></button>
+              <button class="btn copy-btn" v-on:click="copyAddress(index)"></button>
               <button class="accordion-button collapsed more-btn" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#target' + index" aria-expanded="false" v-bind:aria-controls="'target' + index"></button>
             </div>
           </div>
           <div v-bind:id="'target' + index" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" v-bind:data-bs-parent="'#parent' + index">
             <div class="accordion-body bookmark-body">
-              <textarea class="form-control address-ta" name="address" id="address" rows="2" v-model="bookmark.address"></textarea>
+              <textarea class="form-control address-ta" name="address" v-bind:id="'address' + index" rows="2" v-model="bookmark.address" disabled></textarea>
               <div class="edit-delete">
                 <button class="btn edit-btn"></button>
                 <button class="btn delete-btn"></button>
@@ -47,6 +47,13 @@ export default {
         this.bookmarks = data.rows;
       }
     },
+    copyAddress(index) {
+      let copyText = document.querySelector(`#address${index}`);
+      copyText.select();
+
+      navigator.clipboard.writeText(copyText.value);
+      console.log(copyText.value);
+    }
   },
   async created() {
     await this.bookmarkData();
