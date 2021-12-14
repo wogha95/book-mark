@@ -1,7 +1,7 @@
 <template>
   <article class="mypage">
     <div class="mypage-header">
-      <button class="btn cancel-btn"></button>
+      <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
       <h1>
         My Page
       </h1>
@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  },
   beforeCreate() {
     if(!sessionStorage.getItem('bookmark'))
       this.$router.push('/main');
