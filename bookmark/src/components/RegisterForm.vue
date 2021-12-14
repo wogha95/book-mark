@@ -85,6 +85,10 @@ export default {
       this.pw2 = '';
     },
   },
+  beforeCreate() {
+    if(sessionStorage.getItem('bookmark'))
+      this.$router.push('/main');
+  },
 }
 </script>
 

@@ -9,6 +9,11 @@ function loginUser(userData) {
   return instance.post('/login', userData);
 }
 
+// logout 아직 서버 작업이 없어서 사용되는 곳 없음
+function logoutUser() {
+  return instance.get('/logout');
+}
+
 // register
 function registerUser(userData) {
   return instance.post('/register', userData);
@@ -19,4 +24,9 @@ function fetchBookmark(email) {
   return instance.post('/bookmark', email);
 }
 
-export { loginUser, registerUser, fetchBookmark };
+export {
+  loginUser,
+  logoutUser,
+  registerUser,
+  fetchBookmark
+};

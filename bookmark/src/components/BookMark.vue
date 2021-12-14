@@ -1,7 +1,6 @@
 <template>
   <div>
-    <article v-if="$store.state.loading"><loading-spinner></loading-spinner></article>
-    <article v-else v-for="(bookmark, index) in bookmarks" :key="bookmark.name" class="bookmark">
+    <article v-for="(bookmark, index) in bookmarks" :key="bookmark.name" class="bookmark">
       <div class="accordion accordion-flush" v-bind:id="'parent' + index">
         <div class="accordion-item">
           <div class="bookmark-header">
@@ -31,7 +30,6 @@
 
 <script>
 import { fetchBookmark } from '../api/index.js';
-import LoadingSpinner from './LoadingSpinner.vue';
 
 export default {
   data() {
@@ -51,16 +49,8 @@ export default {
     },
   },
   created() {
-    this.$store.state.loading = true;
     this.bookmarkData();
-    // this.$store.state.loading = false;
-    setTimeout(() => {
-      this.$store.state.loading = false;
-    }, 2000);
   },
-  components: {
-    LoadingSpinner,
-  }
 }
 </script>
 
