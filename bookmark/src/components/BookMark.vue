@@ -5,7 +5,7 @@
         <div class="accordion-item">
           <div class="bookmark-header">
             <h2 class="accordion-header address" id="flush-headingOne">
-              <a href="#" class="name-site">{{ bookmark.name }}</a>
+              <a href="#" class="name-site" target="_blank" v-bind:id="'anchor' + index">{{ bookmark.name }}</a>
             </h2>
             <input type="text" class="form-control edit-name" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
             <div class="copy-more">
@@ -48,8 +48,11 @@ export default {
       }
     },
   },
-  created() {
-    this.bookmarkData();
+  async created() {
+    await this.bookmarkData();
+    this.bookmarks.forEach(function(element, index) {
+      document.querySelector(`#anchor${index}`).href = element.address;
+    })
   },
 }
 </script>
