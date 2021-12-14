@@ -3,7 +3,7 @@
     <form v-on:submit.prevent="registerForm">
       <div class="register-header">
         <router-link to="/main">
-          <button type="button" class="btn cancel-btn"></button>
+          <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
         </router-link>
         <h1>
           Register
@@ -84,6 +84,9 @@ export default {
     clearPw2() {
       this.pw2 = '';
     },
+    goBack() {
+      this.$router.go(-1);
+    }
   },
   beforeCreate() {
     if(sessionStorage.getItem('bookmark'))
