@@ -2,7 +2,9 @@
   <div class="nav">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
-        <router-link to="/main" class="navbar-brand">Navbar</router-link>
+        <div v-on:click="closeNavbar">
+          <router-link to="/main" class="navbar-brand">Navbar</router-link>
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,7 +28,9 @@
                   <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3">로그인</button>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/register" class="nav-link" tabindex="4">회원가입</router-link>
+                  <div v-on:click="closeNavbar">
+                    <router-link to="/register" class="nav-link" tabindex="4">회원가입</router-link>
+                  </div>
                 </li>
               </ul>
             </form>
@@ -34,7 +38,9 @@
           <template v-else>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <router-link to="/edit" class="nav-link">{{ $store.state.email }}</router-link>
+                <div v-on:click="closeNavbar">
+                  <router-link to="/edit" class="nav-link">{{ $store.state.email }}</router-link>
+                </div>
               </li>
               <li class="nav-item">
                 <button v-on:click="logout" type="button" class="btn nav-link" aria-label="Logout">Logout</button>
@@ -78,6 +84,7 @@ export default {
         }
         const { data } = await loginUser(userData);
         if(data.login) {
+          this.closeNavbar();
           this.email = '';
           this.pw = '';
           this.$store.commit('setLogin', userData.email);
@@ -92,6 +99,7 @@ export default {
     async logout() {
       try {
         this.$store.commit('setLogout');
+        this.closeNavbar();
         // main 페이지에서 logout하는 경우 router.push 작업X
         this.$router.push('/main').catch(()=>{});
       } catch (error) {
@@ -104,6 +112,9 @@ export default {
     clearPw() {
       this.pw = '';
     },
+    closeNavbar() {
+      document.querySelector('#navbarNav').classList.remove('show');
+    }
   },
 }
 </script>
