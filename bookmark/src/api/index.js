@@ -24,9 +24,15 @@ function fetchBookmark(email) {
   return instance.post('/bookmark', email);
 }
 
+// delete bookmark
+function deleteBookmark(user) {
+  return instance.post('/deleteBookmark', user);
+}
+
 export {
   loginUser,
   logoutUser,
   registerUser,
-  fetchBookmark
+  fetchBookmark,
+  deleteBookmark,
 };
