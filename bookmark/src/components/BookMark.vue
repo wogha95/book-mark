@@ -18,7 +18,7 @@
               <textarea class="form-control address-ta" name="address" v-bind:id="'address' + index" rows="2" v-model="bookmark.address" disabled></textarea>
               <div class="edit-delete">
                 <button class="btn edit-btn"></button>
-                <button class="btn delete-btn"></button>
+                <button class="btn delete-btn" v-on:click="deleteAddress(index)"></button>
               </div>
             </div>
           </div>
@@ -29,7 +29,10 @@
 </template>
 
 <script>
-import { fetchBookmark } from '../api/index.js';
+import {
+  fetchBookmark,
+  deleteBookmark,
+  } from '../api/index.js';
 
 export default {
   data() {
@@ -42,7 +45,7 @@ export default {
       if(this.$store.state.email != '') {
         const user = {
           email: this.$store.state.email,
-        }
+        };
         const { data } = await fetchBookmark(user);
         this.bookmarks = data.rows;
       }
@@ -53,6 +56,29 @@ export default {
 
       navigator.clipboard.writeText(copyText.value);
       console.log(copyText.value);
+    },
+    async deleteAddress(index) {
+      try {
+        let name = document.querySelector(`#anchor${index}`).textContent;
+
+        let confirmflag = confirm('삭제하시겠습니까?');
+
+        if(confirmflag) {
+          if(this.$store.state.email != '') {
+            const user = {
+              email: this.$store.state.email,
+              name
+            };
+            await deleteBookmark(user);
+            alert('삭제되었습니다');
+            this.$router.go(this.$router.currentRoute);
+          }
+          else
+            alert('[ERROR] 다시 시도해주세요');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   async created() {
