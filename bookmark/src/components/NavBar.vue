@@ -100,8 +100,7 @@ export default {
       try {
         this.$store.commit('setLogout');
         this.closeNavbar();
-        // main 페이지에서 logout하는 경우 router.push 작업X
-        this.$router.push('/main').catch(()=>{});
+        this.$router.go(this.$router.currentRoute);
       } catch (error) {
         console.log(error);
       }
