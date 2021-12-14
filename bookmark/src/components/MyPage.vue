@@ -26,7 +26,10 @@
 
 <script>
 export default {
-
+  beforeCreate() {
+    if(!sessionStorage.getItem('bookmark'))
+      this.$router.push('/main');
+  },
 }
 </script>
 

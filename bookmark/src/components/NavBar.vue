@@ -7,7 +7,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <template v-if="!$store.state.logined">
+          <template v-if="!$store.state.email">
             <form v-on:submit.prevent="loginForm">
               <ul class="navbar-nav">
                 <li class="nav-item">
@@ -72,7 +72,6 @@ export default {
   methods: {
     async loginForm() {
       try {
-        console.log(this.email, this.pw);
         const userData = {
           email: this.email,
           pw: this.pw
@@ -90,9 +89,14 @@ export default {
         console.log(error);
       }
     },
-    logout() {
-      this.$store.commit('setLogout');
-      this.$router.push('/main');
+    async logout() {
+      try {
+        this.$store.commit('setLogout');
+        // main 페이지에서 logout하는 경우 router.push 작업X
+        this.$router.push('/main').catch(()=>{});
+      } catch (error) {
+        console.log(error);
+      }
     },
     clearId() {
       this.email = '';

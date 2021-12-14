@@ -5,17 +5,16 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    logined: false,
-    email: '',
+    email: sessionStorage.getItem('bookmark') || '',
     loading: false,
   },
   mutations: {
     setLogin(state, email) {
-      state.logined = true;
+      sessionStorage.setItem('bookmark', email);
       state.email = email;
     },
     setLogout(state) {
-      state.logined = false;
+      sessionStorage.removeItem('bookmark');
       state.email = '';
     },
   },
