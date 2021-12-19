@@ -29,12 +29,17 @@
         </div>
       </div>
     </article>
+    <div class="footer"></div>
+    <div class="fixed-bottom plus-btn-bg">
+      <button class="plus-btn" id="plus" v-on:click="createAddress"></button>
+    </div>
   </div>
 </template>
 
 <script>
 import {
   fetchBookmark,
+  createBookmark,
   editBookmark,
   deleteBookmark,
   } from '../api/index.js';
@@ -53,6 +58,34 @@ export default {
         };
         const { data } = await fetchBookmark(user);
         this.bookmarks = data.rows;
+      }
+    },
+    async createAddress() {
+      try {
+        let name = prompt('저장할 이름을 정해주세요.');
+        let address = prompt('저장할 주소를 입력해주세요.');
+
+        name = name.trim();
+        address = address.trim();
+
+        if(name && address && this.$store.state.email != '') {
+          if(address.substring(0, 8) !== 'https://' && address.substring(0, 7) !== 'http://')
+            address = 'https://' + address;
+
+          const user = {
+            email: this.$store.state.email,
+            name,
+            address
+          };
+          await createBookmark(user);
+          
+          this.$router.go(this.$router.currentRoute);
+        }
+        else
+          alert('[ERROR] 다시 입력해주세요.');
+      } catch (error) {
+        alert('[ERROR] 다시 시도해주세요.');
+        console.log(error);
       }
     },
     copyAddress(index) {
@@ -107,7 +140,10 @@ export default {
           let confirmflag = confirm('저장하시겠습니까?');
 
           if(confirmflag) {
-            if(this.$store.state.email != '') {
+            input.value = input.value.trim();
+            nextAddress.value = nextAddress.value.trim();
+
+            if(this.$store.state.email != '' && input.value != '' && nextAddress.value != '') {
               // https로 저장 (http는 그대로 저장)
               let checkHttps = nextAddress.value;
 
@@ -335,5 +371,26 @@ export default {
   background-size: contain;
 }
 
+.footer {
+  height: 4rem;
+  background-color: transparent;
+}
 
+.plus-btn-bg {
+  background-color: transparent;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-btn {
+  border-style: none;
+  border-radius: 20px;
+  width: 10rem;
+  height: 2.5rem;
+  background: url(../assets/plus.svg) center center no-repeat;
+  background-size: contain;
+  background-color: rgb(255, 255, 255);
+}
 </style>

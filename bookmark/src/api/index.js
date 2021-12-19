@@ -24,6 +24,11 @@ function fetchBookmark(email) {
   return instance.post('/bookmark', email);
 }
 
+// create bookmark
+function createBookmark(user) {
+  return instance.post('/createBookmark', user);
+}
+
 // edit bookmark
 function editBookmark(user) {
   return instance.post('/editBookmark', user);
@@ -39,6 +44,7 @@ export {
   logoutUser,
   registerUser,
   fetchBookmark,
+  createBookmark,
   editBookmark,
   deleteBookmark,
 };
