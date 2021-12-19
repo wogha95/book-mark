@@ -3,21 +3,25 @@
     <article v-for="(bookmark, index) in bookmarks" :key="bookmark.name" class="bookmark">
       <div class="accordion accordion-flush" v-bind:id="'parent' + index">
         <div class="accordion-item">
+          <!-- address Name -->
           <div class="bookmark-header">
-            <h2 class="accordion-header address" id="flush-headingOne">
-              <a href="#" class="name-site" target="_blank" v-bind:id="'anchor' + index">{{ bookmark.name }}</a>
+            <h2 class="accordion-header address" v-bind:id="'addressName' + index">
+              <a href="#" class="name-site" target="_blank" v-bind:id="'addressAnchor' + index">{{ bookmark.name }}</a>
             </h2>
-            <input type="text" class="form-control edit-name" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
+            <!-- if EDIT, address input -->
+            <input type="text" class="form-control edit-name display-none" v-bind:id="'addressInput' + index" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
+            <!-- COPY-btn, MORE-btn -->
             <div class="copy-more">
               <button class="btn copy-btn" v-on:click="copyAddress(index)"></button>
               <button class="accordion-button collapsed more-btn" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#target' + index" aria-expanded="false" v-bind:aria-controls="'target' + index"></button>
             </div>
           </div>
-          <div v-bind:id="'target' + index" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" v-bind:data-bs-parent="'#parent' + index">
+          <!-- ADDRESS, EDIT-btn, DELETE-btn -->
+          <div v-bind:id="'target' + index" class="accordion-collapse collapse" v-bind:aria-labelledby="'addressName' + index" v-bind:data-bs-parent="'#parent' + index">
             <div class="accordion-body bookmark-body">
               <textarea class="form-control address-ta" name="address" v-bind:id="'address' + index" rows="2" v-model="bookmark.address" disabled></textarea>
               <div class="edit-delete">
-                <button class="btn edit-btn"></button>
+                <button class="btn edit-btn" v-on:click="editAddress(index)"></button>
                 <button class="btn delete-btn" v-on:click="deleteAddress(index)"></button>
               </div>
             </div>
@@ -31,6 +35,7 @@
 <script>
 import {
   fetchBookmark,
+  editBookmark,
   deleteBookmark,
   } from '../api/index.js';
 
@@ -59,7 +64,7 @@ export default {
     },
     async deleteAddress(index) {
       try {
-        let name = document.querySelector(`#anchor${index}`).textContent;
+        let name = document.querySelector(`#addressAnchor${index}`).textContent;
 
         let confirmflag = confirm('삭제하시겠습니까?');
 
@@ -79,13 +84,66 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async editAddress(index) {
+      try {
+        // addressName 주소이름틀
+        // nextAddress 변경될 주소
+        // input 입력된 주소이름 (변경될)
+        // anchor 변경전 주소이름
+        let addressName = document.querySelector(`#addressName${index}`);
+        let nextAddress = document.querySelector(`#address${index}`);
+        let input = document.querySelector(`#addressInput${index}`);
+        let anchor = document.querySelector(`#addressAnchor${index}`);
+        
+        // 수정모드
+        if(!addressName.classList.contains('display-none')) {
+          addressName.classList.toggle('display-none');
+          input.classList.toggle('display-none');
+          nextAddress.disabled = false;
+        }
+        // 수정완료
+        else {
+          let confirmflag = confirm('저장하시겠습니까?');
+
+          if(confirmflag) {
+            if(this.$store.state.email != '') {
+              // https로 저장 (http는 그대로 저장)
+              let checkHttps = nextAddress.value;
+
+              if(checkHttps.substring(0, 8) !== 'https://' && checkHttps.substring(0, 7) !== 'http://')
+                checkHttps = 'https://' + checkHttps;
+
+              // 서버 작업
+              const user = {
+                email: this.$store.state.email,
+                name: anchor.textContent,
+                nextName: input.value,
+                nextAddress: checkHttps
+              };
+              await editBookmark(user);
+
+              // 화면 작업
+              addressName.classList.toggle('display-none');
+              input.classList.toggle('display-none');
+              nextAddress.value = checkHttps;
+              nextAddress.disabled = true;
+              anchor.textContent = input.value;
+            }
+            else
+              alert('[ERROR] 다시 시도해주세요');
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   async created() {
     await this.bookmarkData();
     this.bookmarks.forEach(function(element, index) {
-      document.querySelector(`#anchor${index}`).href = element.address;
-    })
+      document.querySelector(`#addressAnchor${index}`).href = element.address;
+    });
   },
 }
 </script>
@@ -110,9 +168,13 @@ export default {
 
 /* address, edit-name */
 /* only display one */
+.display-none {
+  display: none;
+}
+
 .address {
-  /* display: none; */
   height: 30px;
+  margin-bottom: 1px;
 }
 
 .name-site {
@@ -120,11 +182,13 @@ export default {
 }
 
 .edit-name {
-  display: none;
   width: 200px;
   margin: 0 0;
   padding: 0 0;
   font-size: 20px;
+  border: none;
+  border-bottom: thin ridge silver ;
+  color: aquamarine;
   background-color: transparent;
 }
 
@@ -133,7 +197,9 @@ export default {
   outline: none;
   box-shadow: none;
   border: none;
-  background-color: rgba(18, 18, 18, 0.3);
+  border-bottom: thin ridge black ;
+  color: aquamarine;
+  background-color: transparent;
 }
 
 /* Copy, More Btn */
