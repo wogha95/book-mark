@@ -5,7 +5,7 @@
       <h1>
         My Page
       </h1>
-      <button class="btn delete-account-btn"></button>
+      <button v-on:click="deleteAccount" type="button" class="btn delete-account-btn"></button>
     </div>
     <div class="mypage-form">
       <div class="form-floating">
@@ -25,10 +25,42 @@
 </template>
 
 <script>
+import { deleteUser } from '../api/index.js';
+
 export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    async deleteAccount() {
+      try {
+        let checkPw = prompt('비밀번호를 입력해주세요');
+        checkPw = checkPw.trim();
+        
+        // ESC 키를 누른 경우
+        if(checkPw === null)
+          return;
+        // 정확한 비밀번호를 입력한 경우
+        else if(checkPw) {
+          const user = {
+            email: this.$store.state.email,
+            pw: checkPw
+          }
+
+          const { data } = await deleteUser(user);
+          
+          if(data.delete) {
+            alert('계정 삭제되었습니다.');
+            this.$store.commit('setLogout');
+            this.$router.push('/main');
+          }
+          else
+            alert('[ERROR] 다시 시도해주세요');
+        }
+        
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   beforeCreate() {
