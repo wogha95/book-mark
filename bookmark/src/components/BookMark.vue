@@ -63,7 +63,9 @@ export default {
     async createAddress() {
       try {
         let name = prompt('저장할 이름을 정해주세요.');
+        if(name === null) return;
         let address = prompt('저장할 주소를 입력해주세요.');
+        if(address === null) return;
 
         name = name.trim();
         address = address.trim();
