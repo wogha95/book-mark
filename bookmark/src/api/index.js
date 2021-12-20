@@ -16,12 +16,7 @@ function logoutUser() {
 
 // register
 function registerUser(userData) {
-  return instance.post('/registerUser', userData);
-}
-
-// delete user account
-function deleteUser(user) {
-  return instance.post('/deleteUser', user);
+  return instance.post('/register', userData);
 }
 
 // fetch bookmark
@@ -48,7 +43,6 @@ export {
   loginUser,
   logoutUser,
   registerUser,
-  deleteUser,
   fetchBookmark,
   createBookmark,
   editBookmark,

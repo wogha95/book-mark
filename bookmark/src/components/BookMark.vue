@@ -167,7 +167,6 @@ export default {
               nextAddress.value = checkHttps;
               nextAddress.disabled = true;
               anchor.textContent = input.value;
-              anchor.href = nextAddress.value;
             }
             else
               alert('[ERROR] 다시 시도해주세요');
@@ -180,11 +179,9 @@ export default {
   },
   async created() {
     await this.bookmarkData();
-    if(this.bookmarks.length !== 0) {
-      this.bookmarks.forEach(function(element, index) {
-        document.querySelector(`#addressAnchor${index}`).href = element.address;
-      });
-    }
+    this.bookmarks.forEach(function(element, index) {
+      document.querySelector(`#addressAnchor${index}`).href = element.address;
+    });
   },
 }
 </script>
