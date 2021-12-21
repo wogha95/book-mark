@@ -5,32 +5,67 @@
       <h1>
         My Page
       </h1>
-      <button v-on:click="deleteAccount" type="button" class="btn delete-account-btn"></button>
+      <label class="just-space"></label>
     </div>
     <div class="mypage-form">
       <div class="form-floating">
         <input type="email" class="form-control mypage-input" value="abc@naver.com" id="email" placeholder="email@abc.com" disabled>
-        <label class="mypage-label" for="email">Email address</label>
+        <label class="mypage-label" for="email">ID (Email)</label>
       </div>
-      <div class="form-floating">
+      <div class="update-delete-bg">
+        <button v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn">비밀번호 변경</button>
+        <button v-on:click="deleteAccount" type="button" class="btn btn-outline-primary delete-account-btn">회원 탈퇴</button>
+      </div>
+      <!-- <div class="form-floating">
         <input type="password" class="form-control mypage-input" id="pw" placeholder="Password">
         <label class="mypage-label" for="pw">Password</label>
       </div>
       <div class="form-floating">
         <input type="password" class="form-control mypage-input" id="pw2" placeholder="Password Again">
         <label class="mypage-label" for="pw2">Password Again</label>
-      </div>
+      </div> -->
     </div>
   </article>
 </template>
 
 <script>
-import { deleteUser } from '../api/index.js';
+import {
+  updateUser,
+  deleteUser
+  } from '../api/index.js';
 
 export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    async updatePw() {
+      try {
+        let updatePw = prompt('변경하실 비밀번호를 입력해주세요');
+        updatePw = updatePw.trim();
+        
+        // ESC 키를 누른 경우
+        if(updatePw === null)
+          return;
+        // 정확한 비밀번호를 입력한 경우
+        else if(updatePw) {
+          const user = {
+            email: this.$store.state.email,
+            pw: updatePw
+          }
+          console.log(user);
+          const { data } = await updateUser(user);
+          
+          if(data.update)
+            alert('비밀번호가 변경되었습니다.');
+          else
+            alert('[ERROR] 다시 시도해주세요');
+        }
+        
+      } catch (error) {
+        alert('[ERROR] 다시 시도해주세요');
+        console.log(error);
+      }
     },
     async deleteAccount() {
       try {
@@ -59,6 +94,7 @@ export default {
         }
         
       } catch (error) {
+        alert('[ERROR] 다시 시도해주세요');
         console.log(error);
       }
     }
@@ -105,17 +141,17 @@ h1 {
   background-size: contain;
 }
 
-.delete-account-btn {
+.just-space {
   border-style: none;
   width: 30px;
   height: 30px;
-  background: url(../assets/user-slash.svg) center center no-repeat;
-  background-size: contain;
+  background-color: transparent;
+  padding: 0 0;
+  border: none;
 }
 
 .cancel-btn,
-.done-btn,
-.delete-account-btn {
+.done-btn {
   padding: 0 0;
   border: none;
 }
@@ -123,9 +159,7 @@ h1 {
 .cancel-btn:focus,
 .cancel-btn:active,
 .done-btn:focus,
-.done-btn:active,
-.delete-account-btn:focus,
-.delete-account-btn:active {
+.done-btn:active {
   outline: none;
   box-shadow: none;  
 }
@@ -162,6 +196,37 @@ h1 {
 
 .mypage-label {
   color: rgb(197, 197, 197);
+}
+
+.update-delete-bg {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.update-pw-btn {
+  border: none;
+  margin: 10px;
+  color: black;
+  background-color: transparent;
+}
+
+.update-pw-btn:hover {
+  background-color: rgba(83, 83, 83, 0.7);
+  border: none;
+}
+
+.delete-account-btn {
+  border: none;
+  margin: 10px;
+  color: black;
+  background-color: transparent;
+}
+
+.delete-account-btn:hover {
+  background-color: rgba(83, 83, 83, 0.7);
+  border: none;
 }
 
 </style>
