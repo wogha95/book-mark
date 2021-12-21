@@ -30,9 +30,7 @@
       </div>
     </article>
     <div class="footer"></div>
-    <div class="fixed-bottom plus-btn-bg">
-      <button class="plus-btn" id="plus" v-on:click="createAddress"></button>
-    </div>
+    <button class="fixed-bottom plus-btn" id="plus" v-on:click="createAddress"></button>
   </div>
 </template>
 
@@ -381,15 +379,9 @@ export default {
   background-color: transparent;
 }
 
-.plus-btn-bg {
-  background-color: transparent;
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .plus-btn {
+  bottom: 3vh;
+  left: 25%;
   border-style: none;
   border-radius: 20px;
   width: 10rem;
