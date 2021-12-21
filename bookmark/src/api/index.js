@@ -14,9 +14,14 @@ function logoutUser() {
   return instance.get('/logout');
 }
 
-// register
+// register user
 function registerUser(userData) {
   return instance.post('/registerUser', userData);
+}
+
+// update password
+function updateUser(userData) {
+  return instance.post('/updateUser', userData);
 }
 
 // delete user account
@@ -48,6 +53,7 @@ export {
   loginUser,
   logoutUser,
   registerUser,
+  updateUser,
   deleteUser,
   fetchBookmark,
   createBookmark,
