@@ -34,7 +34,7 @@ import { registerUser } from '../api/index.js';
 import { validateEmail } from '../utils/validation.js';
 
 export default {
-  data: function() {
+  data() {
     return {
       email: '',
       pw: '',

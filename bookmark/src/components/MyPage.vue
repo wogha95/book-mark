@@ -11,7 +11,16 @@
         <label class="mypage-label" for="email">ID (Email)</label>
       </div>
       <div class="update-delete-bg">
-        <button v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn">비밀번호 변경</button>
+        <modal-page>
+          <button slot="modal-btn" v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">비밀번호 변경</button>
+          <h5 slot="title">비밀번호를 입력해주세요.</h5>
+          <span slot="body1" class="modal-body1">기존 비밀번호</span>
+          <input slot="input1" v-model="pwBefore" type="password" class="form-control modal-input" required>
+          <span slot="body2">변경할 비밀번호</span>
+          <input slot="input2" v-model="pwAfter" type="password" class="form-control modal-input" required>
+          <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+          <button slot="modal-submit-btn" v-bind:disabled="!isPwValid" type="button" class="btn btn-success" v-on:click="updatePw">변경</button>
+        </modal-page>
         <span>|</span>
         <button v-on:click="deleteAccount" type="button" class="btn btn-outline-primary delete-account-btn">회원 탈퇴</button>
       </div>
@@ -20,31 +29,50 @@
 </template>
 
 <script>
+import ModalPage from './ModalPage.vue';
 import {
   updateUser,
   deleteUser
   } from '../api/index.js';
 
 export default {
+  data() {
+    return {
+      pwBefore: '',
+      pwAfter: ''
+    }
+  },
+  computed: {
+    isPwValid() {
+      return (this.pwBefore !== '') && (this.pwAfter !== '');
+    }
+  },
+  components: {
+    ModalPage
+  },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
+    clearModal() {
+      this.pwBefore = '';
+      this.pwAfter = '';
+    },
     async updatePw() {
       try {
-        let updatePw = prompt('변경하실 비밀번호를 입력해주세요');
-        updatePw = updatePw.trim();
+        let pwBefore = this.pwBefore;
+        let pwAfter = this.pwAfter;
+        pwBefore = pwBefore.trim();
+        pwAfter = pwAfter.trim();
         
-        // ESC 키를 누른 경우
-        if(updatePw === null)
-          return;
         // 정확한 비밀번호를 입력한 경우
-        else if(updatePw) {
+        if(pwBefore && pwAfter) {
           const user = {
             email: this.$store.state.email,
-            pw: updatePw
+            pwBefore: pwBefore,
+            pwAfter: pwAfter
           }
-          console.log(user);
+          
           const { data } = await updateUser(user);
           
           if(data.update)
@@ -222,6 +250,16 @@ h1 {
 .delete-account-btn:hover {
   background-color: rgba(83, 83, 83, 0.7);
   border: none;
+}
+
+.modal-input:focus {
+  border: thin solid #005A34;
+  outline: none;
+  box-shadow: none;
+}
+
+.modal-ta {
+  resize: none;
 }
 
 </style>
