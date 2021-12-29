@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <div v-on:click="closeNavbar">
-          <router-link to="/main" class="navbar-brand">Navbar</router-link>
+          <strong class="text-all"><router-link to="/main" class="navbar-brand">Navbar</router-link></strong>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -25,11 +25,11 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3">로그인</button>
+                  <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3"><strong class="text-all">로그인</strong></button>
                 </li>
                 <li class="nav-item">
                   <div v-on:click="closeNavbar">
-                    <router-link to="/register" class="nav-link" tabindex="4">회원가입</router-link>
+                    <strong class="text-all"><router-link to="/register" class="nav-link" tabindex="4">회원가입</router-link></strong>
                   </div>
                 </li>
               </ul>
@@ -39,11 +39,11 @@
             <ul class="navbar-nav">
               <li class="nav-item">
                 <div v-on:click="closeNavbar">
-                  <router-link to="/edit" class="nav-link">{{ $store.state.email }}</router-link>
+                  <router-link to="/edit" class="nav-link"><strong class="text-all">{{ $store.state.email }}</strong></router-link>
                 </div>
               </li>
               <li class="nav-item">
-                <button v-on:click="logout" type="button" class="btn nav-link" aria-label="Logout">Logout</button>
+                <button v-on:click="logout" type="button" class="btn nav-link" aria-label="Logout"><strong class="text-all">Logout</strong></button>
               </li>
             </ul>
           </template>
@@ -124,7 +124,7 @@ export default {
 }
 
 .navbar {
-  background-color: #363636
+  background-color: #3A3A3A;
 }
 
 .router-link-exact-active,
@@ -235,6 +235,10 @@ export default {
 .cancelbtn:active {
   outline: none;
   box-shadow: none;
+}
+
+.text-all {
+  letter-spacing: 0.05em;
 }
 
 </style>
