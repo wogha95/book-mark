@@ -30,11 +30,21 @@
       </div>
     </article>
     <div class="footer"></div>
-    <button class="fixed-bottom plus-btn" id="plus" v-on:click="createAddress"></button>
+    <modal-page>
+      <button slot="modal-btn" class="fixed-bottom plus-btn" id="plus" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+      <h5 slot="title">추가할 이름과 주소를 입력하세요.</h5>
+      <span slot="body1" class="modal-body1">이름</span>
+      <input slot="input1" v-model="name" type="text" class="form-control modal-input" required>
+      <span slot="body2">주소</span>
+      <textarea slot="input2" v-model="address" class="form-control modal-input modal-ta" rows="2" required></textarea>
+      <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+      <button slot="modal-submit-btn" type="button" class="btn btn-success" v-on:click="createAddress">추가</button>
+    </modal-page>
   </div>
 </template>
 
 <script>
+import ModalPage from './ModalPage.vue';
 import {
   fetchBookmark,
   createBookmark,
@@ -43,8 +53,11 @@ import {
   } from '../api/index.js';
 
 export default {
+  components: { ModalPage },
   data() {
     return {
+      name: '',
+      address: '',
       bookmarks: [],
     }
   },
@@ -60,9 +73,9 @@ export default {
     },
     async createAddress() {
       try {
-        let name = prompt('저장할 이름을 정해주세요.');
+        let name = this.name;
         if(name === null) return;
-        let address = prompt('저장할 주소를 입력해주세요.');
+        let address = this.address;
         if(address === null) return;
 
         name = name.trim();
@@ -79,6 +92,7 @@ export default {
           };
           await createBookmark(user);
           
+          this.clearModal();
           this.$router.go(this.$router.currentRoute);
         }
         else
@@ -174,6 +188,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    clearModal() {
+      this.name = '';
+      this.address = '';
     }
   },
   async created() {
@@ -395,6 +413,16 @@ export default {
   background: url(../assets/plus.svg) center center no-repeat;
   background-size: contain;
   background-color: #00AC7C;
+}
+
+.modal-input:focus {
+  border: thin solid #005A34;
+  outline: none;
+  box-shadow: none;
+}
+
+.modal-ta {
+  resize: none;
 }
 
 @media screen and (min-width: 500px) {
