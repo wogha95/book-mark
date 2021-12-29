@@ -78,6 +78,7 @@ export default {
   min-width: 300px;
   height: 50vh;
   margin: 20px auto;
+  border: none;
   border-radius: 15px;
 }
 
@@ -108,6 +109,7 @@ export default {
 
 .text-strong {
   color: gold;
+  letter-spacing: 0.1em;
 }
 
 .slide-box {

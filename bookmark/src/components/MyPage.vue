@@ -2,14 +2,12 @@
   <article class="mypage">
     <div class="mypage-header">
       <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
-      <h1>
-        My Page
-      </h1>
+      <h1><strong>My Page</strong></h1>
       <label class="just-space"></label>
     </div>
     <div class="mypage-form">
       <div class="form-floating">
-        <input type="email" class="form-control mypage-input" value="abc@naver.com" id="email" placeholder="email@abc.com" disabled>
+        <input type="email" class="form-control mypage-input" v-bind:value="$store.state.email" id="email" placeholder="email@abc.com" disabled>
         <label class="mypage-label" for="email">ID (Email)</label>
       </div>
       <div class="update-delete-bg">
@@ -17,14 +15,6 @@
         <span>|</span>
         <button v-on:click="deleteAccount" type="button" class="btn btn-outline-primary delete-account-btn">회원 탈퇴</button>
       </div>
-      <!-- <div class="form-floating">
-        <input type="password" class="form-control mypage-input" id="pw" placeholder="Password">
-        <label class="mypage-label" for="pw">Password</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control mypage-input" id="pw2" placeholder="Password Again">
-        <label class="mypage-label" for="pw2">Password Again</label>
-      </div> -->
     </div>
   </article>
 </template>
@@ -110,8 +100,10 @@ export default {
 <style>
 .mypage {
   border-radius: 15px;
-  background-color: rgb(110, 110, 110);
-  width: 95%;
+  background-color: #969696;
+  width: 90vw;
+  max-width: 1000px;
+  min-width: 300px;
   margin: 15px auto;
 }
 
@@ -179,6 +171,7 @@ h1 {
 
 .mypage-input {
   border: 0;
+  color: #c7c7c7;
   background-color: rgba(83, 83, 83, 0.7);
   margin: 10px;
 }
@@ -188,11 +181,12 @@ h1 {
   border: 0;
   box-shadow: none;
   background-color: rgb(77, 77, 77);
-  color: red;
+  color: #c7c7c7;
 }
 
 .mypage-input:disabled {
-  background-color: rgba(83, 83, 83, 0.7);
+  opacity: 0.7;
+  background-color: rgba(18, 18, 18, 1);
 }
 
 .mypage-label {

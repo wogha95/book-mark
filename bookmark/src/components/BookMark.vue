@@ -189,14 +189,16 @@ export default {
 
 <style>
 .bookmark {
-  background-color: rgb(110, 110, 110);
-  width: 95%;
+  background-color: #969696;
+  width: 90vw;
+  max-width: 1000px;
+  min-width: 300px;
   margin: 15px auto;
   border-radius: 15px;
 }
 
 .accordion-item {
-  background-color: rgba(255, 117, 117, 0);
+  background-color: transparent;
 }
 
 .bookmark-header {
@@ -220,6 +222,10 @@ export default {
   color: rgb(12, 12, 12);
 }
 
+.name-site:hover {
+  color: #019e72;
+}
+
 .edit-name {
   width: 200px;
   margin: 0 0;
@@ -227,7 +233,7 @@ export default {
   font-size: 20px;
   border: none;
   border-bottom: thin ridge silver ;
-  color: aquamarine;
+  color: #005A34;
   background-color: transparent;
 }
 
@@ -237,7 +243,7 @@ export default {
   box-shadow: none;
   border: none;
   border-bottom: thin ridge black ;
-  color: aquamarine;
+  color: #005A34;
   background-color: transparent;
 }
 
@@ -384,10 +390,22 @@ export default {
   margin: 0 auto;
   border-style: none;
   border-radius: 20px;
-  width: 10rem;
+  width: 8rem;
   height: 2.5rem;
   background: url(../assets/plus.svg) center center no-repeat;
   background-size: contain;
-  background-color: rgb(255, 255, 255);
+  background-color: #00AC7C;
+}
+
+@media screen and (min-width: 500px) {
+  .plus-btn {
+    width: 10rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .plus-btn {
+    width: 15rem;
+  }
 }
 </style>

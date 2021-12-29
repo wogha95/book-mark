@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <div v-on:click="closeNavbar">
-          <strong class="text-all"><router-link to="/main" class="navbar-brand">Navbar</router-link></strong>
+          <strong class="text-all"><router-link to="/main" class="navbar-brand">Bookmark</router-link></strong>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -20,16 +20,16 @@
                 </li>
                 <li class="nav-item">
                   <div class="input-group-sm">
-                    <input type="text" class="form-control login-input" placeholder="Password" tabindex="2" aria-label="Password"  aria-describedby="button-addon2" v-model="pw" required>
+                    <input type="password" class="form-control login-input" placeholder="Password" tabindex="2" aria-label="Password"  aria-describedby="button-addon2" v-model="pw" required>
                     <button v-bind:class="isPassword" v-on:click="clearPw" type="button" class="btn-close btn-close-white nav1-clear-btn" aria-label="Delete PW inputbox"></button>
                   </div>
                 </li>
                 <li class="nav-item">
-                  <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3"><strong class="text-all">로그인</strong></button>
+                  <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3"><strong class="text-all">Login</strong></button>
                 </li>
                 <li class="nav-item">
                   <div v-on:click="closeNavbar">
-                    <strong class="text-all"><router-link to="/register" class="nav-link" tabindex="4">회원가입</router-link></strong>
+                    <strong class="text-all"><router-link to="/register" class="nav-link" tabindex="4">Sign Up</router-link></strong>
                   </div>
                 </li>
               </ul>

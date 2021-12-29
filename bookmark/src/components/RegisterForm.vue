@@ -5,9 +5,7 @@
         <router-link to="/main">
           <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
         </router-link>
-        <h1>
-          Register
-        </h1>
+        <h1><strong>Register</strong></h1>
         <button v-bind:disabled="!isFormValid" type="submit" class="btn done-btn"></button>
       </div>
       <div class="register-form">
@@ -98,8 +96,10 @@ export default {
 <style>
 .register {
   border-radius: 15px;
-  background-color: rgb(110, 110, 110);
-  width: 95%;
+  background-color: #969696;
+  width: 90vw;
+  max-width: 1000px;
+  min-width: 300px;
   margin: 15px auto;
 }
 
@@ -172,16 +172,18 @@ h1 {
 
 .register-input {
   border: 0;
-  background-color: rgba(83, 83, 83, 0.7);
+  opacity: 0.7;
+  background-color: rgba(18, 18, 18, 1);
   margin: 10px;
+  color: #c7c7c7;
 }
 
 .register-input:focus {
   outline: none;
   border: 0;
   box-shadow: none;
-  background-color: rgb(77, 77, 77);
-  color: red;
+  background-color: rgba(18, 18, 18, 1);
+  color: #c7c7c7;
 }
 
 .register-label {
