@@ -14,6 +14,7 @@
       </div>
       <div class="update-delete-bg">
         <button v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn">비밀번호 변경</button>
+        <span>|</span>
         <button v-on:click="deleteAccount" type="button" class="btn btn-outline-primary delete-account-btn">회원 탈퇴</button>
       </div>
       <!-- <div class="form-floating">
