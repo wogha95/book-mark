@@ -381,7 +381,7 @@ export default {
 
 .plus-btn {
   bottom: 3vh;
-  left: 25%;
+  margin: 0 auto;
   border-style: none;
   border-radius: 20px;
   width: 10rem;
