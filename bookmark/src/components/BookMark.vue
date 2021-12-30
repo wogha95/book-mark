@@ -221,8 +221,8 @@ export default {
       }
     },
     clearModal() {
-      this.name = '';
-      this.address = '';
+      this.newName = '';
+      this.newAddress = '';
     }
   },
   async created() {

@@ -88,7 +88,7 @@ export default {
           this.email = '';
           this.pw = '';
           this.$store.commit('setLogin', userData.email);
-          this.$router.push('/edit');
+          this.$router.go(this.$router.currentRoute);
         }
         else
           alert('다시 입력바랍니다.');
