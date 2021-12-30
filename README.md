@@ -27,7 +27,7 @@ Mobile, Tablet, Desktop, Public PC 등 다양한 환경에서 자신만의 즐�
 <br>
 
 ## ✔핵심 기능
-(사진 예정)
+(작성 예정)
 
 <br>
 
@@ -44,6 +44,7 @@ markdown 을 사용하기 위해서 입니다.
 </div>
 </details>
 
+
 <br>
 
 ## 💻Usage
@@ -59,6 +60,24 @@ markdown 을 사용하기 위해서 입니다.
 
 1. 빈 폴더에 [book-mark](https://github.com/wogha95/book-mark)와 [book-mark-server](https://github.com/wogha95/book-mark-server)를 clone합니다.
 2. book-mark-server/server/db/config.js 작성합니다.
-3. book-mark/bookmark 에서 `npm run build` 실행
-4. book-mark-server/server 에서 `npm start` 실행
-5. 브라우저 주소창에 `localhost:3000` 으로 접속
+3. config.js과 동일하게 Mysql DB connection을 생성합니다.
+4. ERD 설계와 동일하게 table을 생성합니다.
+5. book-mark/bookmark 에서 `npm run build` 실행
+6. book-mark-server/server 에서 `npm start` 실행
+7. 브라우저 주소창에 `localhost:3000` 으로 접속
+
+<br>
+
+## 📸실행 화면
+|                 | Mobile | PC |
+|:---------------:|--------|----|
+| login           |<img src='./img/mobile_login.gif'>|<img src='./img/PC_login.gif'>|
+| create User     |<img src='./img/mobile_createUser.gif'>|<img src='./img/PC_createUser.gif'>|
+| update User     |<img src='./img/mobile_updateUser.gif'>|<img src='./img/PC_updateUser.gif'>|
+| delete User     |<img src='./img/mobile_deleteUser.gif'>|<img src='./img/PC_deleteUser.gif'>|
+| create Bookmark |<img src='./img/mobile_createBookmark.gif'>|<img src='./img/PC_createBookmark.gif'>|
+| update Bookmark |<img src='./img/mobile_updateBookmark.gif'>|<img src='./img/PC_updateBookmark.gif'>|
+| delete Bookmark |<img src='./img/mobile_deleteBookmark.gif'>|<img src='./img/PC_deleteBookmark.gif'>|
+| update Star     |<img src='./img/mobile_updateStar.gif'>|<img src='./img/PC_updateStar.gif'>|
+
+<br>
