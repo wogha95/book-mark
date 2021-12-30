@@ -49,6 +49,11 @@ function deleteBookmark(user) {
   return instance.post('/deleteBookmark', user);
 }
 
+// update bookmark-star
+function updateStar(user) {
+  return instance.post('/updateStar', user);
+}
+
 export {
   loginUser,
   logoutUser,
@@ -59,4 +64,5 @@ export {
   createBookmark,
   editBookmark,
   deleteBookmark,
+  updateStar,
 };
