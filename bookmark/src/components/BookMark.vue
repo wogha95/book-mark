@@ -5,11 +5,14 @@
         <div class="accordion-item">
           <!-- address Name -->
           <div class="bookmark-header">
-            <h2 class="accordion-header address" v-bind:id="'addressName' + index">
-              <a href="#" class="name-site" target="_blank" v-bind:id="'addressAnchor' + index">{{ bookmark.name }}</a>
-            </h2>
-            <!-- if EDIT, address input -->
-            <input type="text" class="form-control edit-name display-none" v-bind:id="'addressInput' + index" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
+            <div class="bookmark-name">
+              <button v-bind:class="isBookmark(bookmark.star)" v-on:click="toggleStar(index)" class="btn bookmark-btn" v-bind:id="'bookmark'+ index"></button>
+              <h2 class="accordion-header address" v-bind:id="'addressName' + index">
+                <a v-bind:href="bookmark.address" class="name-site" target="_blank" v-bind:id="'addressAnchor' + index">{{ bookmark.name }}</a>
+              </h2>              
+              <!-- if EDIT, address input -->
+              <input type="text" class="form-control edit-name display-none" v-bind:id="'addressInput' + index" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
+            </div>
             <!-- COPY-btn, MORE-btn -->
             <div class="copy-more">
               <button class="btn copy-btn" v-on:click="copyAddress(index)"></button>
@@ -34,9 +37,9 @@
       <button slot="modal-btn" class="fixed-bottom plus-btn" id="plus" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
       <h5 slot="title">추가할 이름과 주소를 입력하세요.</h5>
       <span slot="body1" class="modal-body1">이름</span>
-      <input slot="input1" v-model="name" type="text" class="form-control modal-input" required>
+      <input slot="input1" v-model="newName" type="text" class="form-control modal-input" required>
       <span slot="body2">주소</span>
-      <textarea slot="input2" v-model="address" class="form-control modal-input modal-ta" rows="2" required></textarea>
+      <textarea slot="input2" v-model="newAddress" class="form-control modal-input modal-ta" rows="2" required></textarea>
       <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
       <button slot="modal-submit-btn" type="button" class="btn btn-success" v-on:click="createAddress">추가</button>
     </modal-page>
@@ -50,18 +53,22 @@ import {
   createBookmark,
   editBookmark,
   deleteBookmark,
+  updateStar,
   } from '../api/index.js';
 
 export default {
   components: { ModalPage },
   data() {
     return {
-      name: '',
-      address: '',
+      newName: '',
+      newAddress: '',
       bookmarks: [],
     }
   },
   methods: {
+    isBookmark(star) {
+      return (star === 0)? 'bookmark-star-btn' : null;
+    },
     async bookmarkData() {
       if(this.$store.state.email != '') {
         const user = {
@@ -73,20 +80,21 @@ export default {
     },
     async createAddress() {
       try {
-        let name = this.name;
+        let name = this.newName;
         if(name === null) return;
-        let address = this.address;
+        let address = this.newAddress;
         if(address === null) return;
 
         name = name.trim();
         address = address.trim();
-
-        if(name && address && this.$store.state.email != '') {
+        
+        if(name && address && this.$store.state.email !== '') {
           if(address.substring(0, 8) !== 'https://' && address.substring(0, 7) !== 'http://')
             address = 'https://' + address;
 
           const user = {
             email: this.$store.state.email,
+            star: 1,
             name,
             address
           };
@@ -189,6 +197,29 @@ export default {
         console.log(error);
       }
     },
+    async toggleStar(index) {
+      try {
+        const star = (this.bookmarks[index].star == 0)? 1 : 0;
+
+        const user = {
+          email: this.$store.state.email,
+          star,
+          name: this.bookmarks[index].name,
+          address: this.bookmarks[index].address
+        };
+        
+        const { data } = await updateStar(user);
+        
+        if(data.star) {
+          document.querySelector(`#bookmark${index}`).classList.toggle('bookmark-star-btn');
+
+          this.$router.go(this.$router.currentRoute);
+        } else
+          alert('[ERROR] 다시 시도해주세요.');
+      } catch (error) {
+        console.log(error);
+      }
+    },
     clearModal() {
       this.name = '';
       this.address = '';
@@ -196,11 +227,11 @@ export default {
   },
   async created() {
     await this.bookmarkData();
-    if(this.bookmarks.length !== 0) {
-      this.bookmarks.forEach(function(element, index) {
-        document.querySelector(`#addressAnchor${index}`).href = element.address;
-      });
-    }
+    // if(this.bookmarks.length !== 0) {
+    //   this.bookmarks.forEach(function(element, index) {
+    //     document.querySelector(`#addressAnchor${index}`).href = element.address;
+    //   });
+    // }
   },
 }
 </script>
@@ -300,6 +331,28 @@ export default {
   align-items: center;
 }
 
+.bookmark-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bookmark-btn {
+  width: 20px;
+  height: 20px;
+  background: url(../assets/bookmark.svg) center center no-repeat;
+  background-size: contain;
+  margin: 5px;
+}
+
+.bookmark-star-btn {
+  width: 20px;
+  height: 20px;
+  background: url(../assets/bookmark2.svg) center center no-repeat;
+  background-size: contain;
+  margin: 5px;
+}
+
 .copy-btn {
   width: 20px;
   height: 20px;
@@ -307,6 +360,8 @@ export default {
   background-size: contain;
 }
 
+.bookmark-star-btn,
+.bookmark-btn,
 .copy-btn,
 .edit-btn,
 .delete-btn {
@@ -314,6 +369,10 @@ export default {
   border: none;
 }
 
+.bookmark-star-btn:active,
+.bookmark-star-btn:focus,
+.bookmark-btn:active,
+.bookmark-btn:focus,
 .copy-btn:active,
 .copy-btn:focus,
 .delete-btn:focus,
@@ -436,4 +495,5 @@ export default {
     width: 15rem;
   }
 }
+
 </style>
