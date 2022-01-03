@@ -16,7 +16,7 @@ function logoutUser() {
 
 // register user
 function registerUser(userData) {
-  return instance.post('/registerUser', userData);
+  return instance.post('/user', userData);
 }
 
 // update password
