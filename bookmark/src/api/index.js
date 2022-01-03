@@ -46,7 +46,7 @@ function editBookmark(user) {
 
 // delete bookmark
 function deleteBookmark(user) {
-  return instance.post('/deleteBookmark', user);
+  return instance.put('/bookmark', user);
 }
 
 // update bookmark-star
