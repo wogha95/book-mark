@@ -29,9 +29,9 @@ function deleteUser(user) {
   return instance.post('/deleteUser', user);
 }
 
-// fetch bookmark
+// fetch bookmarks
 function fetchBookmark(email) {
-  return instance.post('/bookmark', email);
+  return instance.post('/bookmarks', email);
 }
 
 // create bookmark
