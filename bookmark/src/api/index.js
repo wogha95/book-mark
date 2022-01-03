@@ -36,7 +36,7 @@ function fetchBookmark(email) {
 
 // create bookmark
 function createBookmark(user) {
-  return instance.post('/createBookmark', user);
+  return instance.post('/bookmark', user);
 }
 
 // edit bookmark
