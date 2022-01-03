@@ -39,9 +39,9 @@ function createBookmark(user) {
   return instance.post('/bookmark', user);
 }
 
-// edit bookmark
+// edit bookmark name-address
 function editBookmark(user) {
-  return instance.post('/editBookmark', user);
+  return instance.put('/name-address', user);
 }
 
 // delete bookmark
