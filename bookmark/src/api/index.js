@@ -21,7 +21,7 @@ function registerUser(userData) {
 
 // update password
 function updateUser(userData) {
-  return instance.post('/updateUser', userData);
+  return instance.put('/user', userData);
 }
 
 // delete user account
