@@ -21,12 +21,12 @@ function registerUser(userData) {
 
 // update password
 function updateUser(userData) {
-  return instance.put('/user', userData);
+  return instance.put('/password', userData);
 }
 
 // delete user account
 function deleteUser(user) {
-  return instance.post('/deleteUser', user);
+  return instance.post('/user', user);
 }
 
 // fetch bookmarks
