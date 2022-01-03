@@ -51,7 +51,7 @@ function deleteBookmark(user) {
 
 // update bookmark-star
 function updateStar(user) {
-  return instance.post('/updateStar', user);
+  return instance.put('/star', user);
 }
 
 export {
