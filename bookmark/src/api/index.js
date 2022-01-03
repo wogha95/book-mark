@@ -16,42 +16,42 @@ function logoutUser() {
 
 // register user
 function registerUser(userData) {
-  return instance.post('/registerUser', userData);
+  return instance.post('/user', userData);
 }
 
 // update password
 function updateUser(userData) {
-  return instance.post('/updateUser', userData);
+  return instance.put('/password', userData);
 }
 
 // delete user account
 function deleteUser(user) {
-  return instance.post('/deleteUser', user);
+  return instance.post('/user', user);
 }
 
-// fetch bookmark
+// fetch bookmarks
 function fetchBookmark(email) {
-  return instance.post('/bookmark', email);
+  return instance.post('/bookmarks', email);
 }
 
 // create bookmark
 function createBookmark(user) {
-  return instance.post('/createBookmark', user);
+  return instance.post('/bookmark', user);
 }
 
-// edit bookmark
+// edit bookmark name-address
 function editBookmark(user) {
-  return instance.post('/editBookmark', user);
+  return instance.put('/name-address', user);
 }
 
 // delete bookmark
 function deleteBookmark(user) {
-  return instance.post('/deleteBookmark', user);
+  return instance.put('/bookmark', user);
 }
 
 // update bookmark-star
 function updateStar(user) {
-  return instance.post('/updateStar', user);
+  return instance.put('/star', user);
 }
 
 export {
