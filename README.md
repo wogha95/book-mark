@@ -26,23 +26,137 @@ Mobile, Tablet, Desktop, Public PC 등 다양한 환경에서 자신만의 즐�
 
 <br>
 
-## ✔핵심 기능
-(작성 예정)
+## 프론트엔드 구조
+
 
 <br>
 
-## ❗트러블 슈팅
-<details>
-<summary>상세 내용 확인</summary>
-<div markdown="1">
+## ✔특징
+### 1. Vuex 사용
+   - 컴포넌트 간에 props, emit을 이용하는 것은 데이터 상태관리가 복잡해지므로 Vuex 사용
+``` javascript
+// BookMark.vue
+async bookmarkData() {
+  if(this.$store.state.email != '') {
+    const user = {
+      email: this.$store.state.email,
+    };
+    // ..
+  }
+},
 
-div 에 markdown attribute 를 1 로 
-하는 이유는 div 안에서
-markdown 을 사용하기 위해서 입니다.
+// 위와 같이 아래 함수에서도 발생
+async createAddress() 
+async deleteAddress(index) 
+async editAddress(index)
+async toggleStar(index) 
+```
+``` javascript
+// MyPage.vue
+<input type="email" class="form-control mypage-input" v-bind:value="$store.state.email" id="email" placeholder="email@abc.com" disabled>  // line 10
 
+async updatePw() {
+  // ..
+  const user = { email: this.$store.state.email,
+  // ..
+},
 
+// 위와 같이 아래 함수에서도 발생
+async deleteAccount()
+```
+``` javascript
+// NavBar.vue
+ <template v-if="!$store.state.email">  // line 12
+ <router-link to="/edit" class="nav-link"><strong class="text-all">{{ $store.state.email }}</strong></router-link>  // line 42
+ 
+async loginForm() {
+  // ..
+  this.$store.commit('setLogin', userData.email);
+  // ..
+}
+
+// 위와 같이 아래 함수에서도 발생
+async logout()
+```
+
+<br>
+
+### 2. slot 을 이용하여 모달창 재사용성 향상
+``` html
+<!-- ModalPage.vue -->
+<!-- slot을 형식을 만들고 -->
+<slot name="modal-btn">modal-btn</slot>
+<slot class="modal-title" name="title">Modal Title</slot>
+<div class="modal-body">
+  <slot name="body1">Modal Body1</slot>
+  <slot name="input1">Modal input1</slot>
+  <slot name="body2">Modal Body2</slot>
+  <slot name="input2">Modal input2</slot>
 </div>
-</details>
+<div class="modal-footer">
+  <slot name="modal-clost-btn">Modal-clost-btn</slot>
+  <slot name="modal-submit-btn">modal-submit-btn</slot>
+</div>
+```
+``` html
+<!-- BookMark.vue -->
+<!-- slot형식에 맞춰 모달 생성 -->
+<modal-page>
+  <button slot="modal-btn" class="fixed-bottom plus-btn" id="plus" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+  <h5 slot="title">추가할 이름과 주소를 입력하세요.</h5>
+  <span slot="body1" class="modal-body1">이름</span>
+  <input slot="input1" v-model="newName" type="text" class="form-control modal-input" required>
+  <span slot="body2">주소</span>
+  <textarea slot="input2" v-model="newAddress" class="form-control modal-input modal-ta" rows="2" required></textarea>
+  <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+  <button slot="modal-submit-btn" type="button" class="btn btn-success" v-on:click="createAddress">추가</button>
+</modal-page>
+```
+``` html
+<!-- MyPage.vue -->
+<!-- slot형식에 맞춰 모달 생성 -->
+<modal-page>
+  <button slot="modal-btn" v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">비밀번호 변경</button>
+  <h5 slot="title">비밀번호를 입력해주세요.</h5>
+  <span slot="body1" class="modal-body1">기존 비밀번호</span>
+  <input slot="input1" v-model="pwBefore" type="password" class="form-control modal-input" required>
+  <span slot="body2">변경할 비밀번호</span>
+  <input slot="input2" v-model="pwAfter" type="password" class="form-control modal-input" required>
+  <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+  <button slot="modal-submit-btn" v-bind:disabled="!isPwValid" type="button" class="btn btn-success" v-on:click="updatePw">변경</button>
+</modal-page>
+```
+
+<br>
+
+### 3. Vue 라이프사이클 훅 사용
+  - beforecreate
+     - data, event 접근가능
+``` javascript
+// RegisterForm.vue
+// 로그인한 사용자는 접근 금지하게 만듬
+beforeCreate() {
+  if(sessionStorage.getItem('bookmark'))
+    this.$router.push('/main');
+}
+
+// MyPage.vue
+// 로그인 안 한 사용자는 접근 금지하게 만듬
+beforeCreate() {
+  if(!sessionStorage.getItem('bookmark'))
+    this.$router.push('/main');
+}
+```
+   - created
+      - 가상 DOM 사용가능
+      - 컴포넌트, 템플릿, 렌더링 된 DOM 접근가능
+``` javascript
+// BookMark.vue
+// DOM을 만들면 바로 bookmark 데이터를 가져오기
+async created() {
+  await this.bookmarkData();
+}
+```
 
 
 <br>
