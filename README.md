@@ -31,7 +31,8 @@ Mobile과 Tablet, 노트북을 바꿔가면서 쓰는 생활 속에
 <br>
 
 ## 🗂프론트엔드 구조
-
+- data와 api 흐름
+<img src='./img/data-api-flow.png'>
 
 <br>
 
