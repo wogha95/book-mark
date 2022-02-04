@@ -3,9 +3,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <div v-on:click="closeNavbar">
-          <strong class="text-all"><router-link to="/main" class="navbar-brand">Bookmark</router-link></strong>
+          <strong class="text-all"
+            ><router-link to="/main" class="navbar-brand"
+              >Bookmark</router-link
+            ></strong
+          >
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          type="button"
+          class="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -14,22 +26,63 @@
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <div class="input-group-sm">
-                    <input type="text" class="form-control login-input" placeholder="ID (Email)" tabindex="1" aria-label="ID (Email)" aria-describedby="button-addon1" v-model="email" required>
-                    <button v-bind:class="isEmail" v-on:click="clearId" type="button" class="btn-close btn-close-white nav1-clear-btn" aria-label="Delete ID inputbox"></button>
+                    <input
+                      type="text"
+                      class="form-control login-input"
+                      placeholder="ID (Email)"
+                      tabindex="1"
+                      v-model="email"
+                      aria-label="ID (Email)"
+                      aria-describedby="button-addon1"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white nav1-clear-btn"
+                      v-bind:class="isEmail"
+                      v-on:click="clearId"
+                      aria-label="Delete ID inputbox"
+                    ></button>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="input-group-sm">
-                    <input type="password" class="form-control login-input" placeholder="Password" tabindex="2" aria-label="Password"  aria-describedby="button-addon2" v-model="pw" required>
-                    <button v-bind:class="isPassword" v-on:click="clearPw" type="button" class="btn-close btn-close-white nav1-clear-btn" aria-label="Delete PW inputbox"></button>
+                    <input
+                      type="password"
+                      class="form-control login-input"
+                      placeholder="Password"
+                      tabindex="2"
+                      v-model="pw"
+                      aria-label="Password"
+                      aria-describedby="button-addon2"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white nav1-clear-btn"
+                      v-bind:class="isPassword"
+                      v-on:click="clearPw"
+                      aria-label="Delete PW inputbox"
+                    ></button>
                   </div>
                 </li>
                 <li class="nav-item">
-                  <button v-bind:disabled="!isLoginValid" type="submit" class="btn nav-link" tabindex="3"><strong class="text-all">Login</strong></button>
+                  <button
+                    type="submit"
+                    class="btn nav-link"
+                    tabindex="3"
+                    v-bind:disabled="!isLoginValid"
+                  >
+                    <strong class="text-all">Login</strong>
+                  </button>
                 </li>
                 <li class="nav-item">
                   <div v-on:click="closeNavbar">
-                    <strong class="text-all"><router-link to="/register" class="nav-link" tabindex="4">Sign Up</router-link></strong>
+                    <strong class="text-all"
+                      ><router-link to="/register" class="nav-link" tabindex="4"
+                        >Sign Up</router-link
+                      ></strong
+                    >
                   </div>
                 </li>
               </ul>
@@ -39,11 +92,22 @@
             <ul class="navbar-nav">
               <li class="nav-item">
                 <div v-on:click="closeNavbar">
-                  <router-link to="/edit" class="nav-link"><strong class="text-all">{{ $store.state.email }}</strong></router-link>
+                  <router-link to="/edit" class="nav-link"
+                    ><strong class="text-all">{{
+                      $store.state.email
+                    }}</strong></router-link
+                  >
                 </div>
               </li>
               <li class="nav-item">
-                <button v-on:click="logout" type="button" class="btn nav-link" aria-label="Logout"><strong class="text-all">Logout</strong></button>
+                <button
+                  type="button"
+                  class="btn nav-link"
+                  v-on:click="logout"
+                  aria-label="Logout"
+                >
+                  <strong class="text-all">Logout</strong>
+                </button>
               </li>
             </ul>
           </template>
@@ -54,51 +118,49 @@
 </template>
 
 <script>
-import { loginUser } from '../api/index.js';
-import { validateEmail } from '../utils/validation.js';
+import { loginUser } from "../api/index.js";
+import { validateEmail } from "../utils/validation.js";
 
 export default {
   data() {
     return {
-      email: '',
-      pw: '',
-    }
+      email: "",
+      pw: "",
+    };
   },
   computed: {
     isLoginValid() {
-      return validateEmail(this.email) && (this.pw != '');
+      return validateEmail(this.email) && this.pw != "";
     },
     isEmail() {
-      return (this.email == '')? 'disapper' : null;
+      return this.email == "" ? "disapper" : null;
     },
     isPassword() {
-      return (this.pw == '')? 'disapper' : null;
-    }
+      return this.pw == "" ? "disapper" : null;
+    },
   },
   methods: {
     async loginForm() {
       try {
         const userData = {
           email: this.email,
-          pw: this.pw
-        }
+          pw: this.pw,
+        };
         const { data } = await loginUser(userData);
-        if(data.login) {
+        if (data.login) {
           this.closeNavbar();
-          this.email = '';
-          this.pw = '';
-          this.$store.commit('setLogin', userData.email);
+          this.email = "";
+          this.pw = "";
+          this.$store.commit("setLogin", userData.email);
           this.$router.go(this.$router.currentRoute);
-        }
-        else
-          alert('다시 입력바랍니다.');
+        } else alert("다시 입력바랍니다.");
       } catch (error) {
         console.log(error);
       }
     },
     async logout() {
       try {
-        this.$store.commit('setLogout');
+        this.$store.commit("setLogout");
         this.closeNavbar();
         this.$router.go(this.$router.currentRoute);
       } catch (error) {
@@ -106,16 +168,16 @@ export default {
       }
     },
     clearId() {
-      this.email = '';
+      this.email = "";
     },
     clearPw() {
-      this.pw = '';
+      this.pw = "";
     },
     closeNavbar() {
-      document.querySelector('#navbarNav').classList.remove('show');
-    }
+      document.querySelector("#navbarNav").classList.remove("show");
+    },
   },
-}
+};
 </script>
 
 <style>
@@ -124,7 +186,7 @@ export default {
 }
 
 .navbar {
-  background-color: #3A3A3A;
+  background-color: #3a3a3a;
 }
 
 .router-link-exact-active,
@@ -139,7 +201,7 @@ export default {
   box-shadow: none;
 }
 
-.navbar-toggler{
+.navbar-toggler {
   border: none;
 }
 
@@ -156,7 +218,7 @@ export default {
 }
 
 .login-input::placeholder {
-  color: rgba(255,255,255,.55);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .login-input:focus,
@@ -183,7 +245,7 @@ export default {
   display: none;
 }
 
-.input-group-sm>.form-control {
+.input-group-sm > .form-control {
   padding-right: 2rem;
   padding-left: 2rem;
 }
@@ -240,5 +302,4 @@ export default {
 .text-all {
   letter-spacing: 0.05em;
 }
-
 </style>

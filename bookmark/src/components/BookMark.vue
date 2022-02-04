@@ -1,31 +1,86 @@
 <template>
   <div>
-    <article v-for="(bookmark, index) in bookmarks" :key="bookmark.name" class="bookmark">
+    <article
+      class="bookmark"
+      v-for="(bookmark, index) in bookmarks"
+      :key="bookmark.name"
+    >
       <div class="accordion accordion-flush" v-bind:id="'parent' + index">
         <div class="accordion-item">
           <!-- address Name -->
           <div class="bookmark-header">
             <div class="bookmark-name">
-              <button v-bind:class="isBookmark(bookmark.star)" v-on:click="toggleStar(index)" class="btn bookmark-btn" v-bind:id="'bookmark'+ index"></button>
-              <h2 class="accordion-header address" v-bind:id="'addressName' + index">
-                <a v-bind:href="bookmark.address" class="name-site" target="_blank" v-bind:id="'addressAnchor' + index">{{ bookmark.name }}</a>
-              </h2>              
+              <button
+                class="btn bookmark-btn"
+                v-bind:id="'bookmark' + index"
+                v-bind:class="isBookmark(bookmark.star)"
+                v-on:click="toggleStar(index)"
+              ></button>
+              <h2
+                class="accordion-header address"
+                v-bind:id="'addressName' + index"
+              >
+                <a
+                  class="name-site"
+                  target="_blank"
+                  v-bind:href="bookmark.address"
+                  v-bind:id="'addressAnchor' + index"
+                  >{{ bookmark.name }}</a
+                >
+              </h2>
               <!-- if EDIT, address input -->
-              <input type="text" class="form-control edit-name display-none" v-bind:id="'addressInput' + index" v-bind:value="bookmark.name" v-bind:placeholder="bookmark.name" v-bind:aria-label="bookmark.name" aria-describedby="button-addon1">
+              <input
+                type="text"
+                class="form-control edit-name display-none"
+                v-bind:id="'addressInput' + index"
+                v-bind:value="bookmark.name"
+                v-bind:placeholder="bookmark.name"
+                v-bind:aria-label="bookmark.name"
+                aria-describedby="button-addon1"
+              />
             </div>
             <!-- COPY-btn, MORE-btn -->
             <div class="copy-more">
-              <button class="btn copy-btn" v-on:click="copyAddress(index)"></button>
-              <button class="accordion-button collapsed more-btn" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#target' + index" aria-expanded="false" v-bind:aria-controls="'target' + index"></button>
+              <button
+                type="button"
+                class="btn copy-btn"
+                v-on:click="copyAddress(index)"
+              ></button>
+              <button
+                type="button"
+                class="accordion-button collapsed more-btn"
+                v-bind:data-bs-target="'#target' + index"
+                v-bind:aria-controls="'target' + index"
+                data-bs-toggle="collapse"
+                aria-expanded="false"
+              ></button>
             </div>
           </div>
           <!-- ADDRESS, EDIT-btn, DELETE-btn -->
-          <div v-bind:id="'target' + index" class="accordion-collapse collapse" v-bind:aria-labelledby="'addressName' + index" v-bind:data-bs-parent="'#parent' + index">
+          <div
+            class="accordion-collapse collapse"
+            v-bind:id="'target' + index"
+            v-bind:aria-labelledby="'addressName' + index"
+            v-bind:data-bs-parent="'#parent' + index"
+          >
             <div class="accordion-body bookmark-body">
-              <textarea class="form-control address-ta" name="address" v-bind:id="'address' + index" rows="2" v-model="bookmark.address" disabled></textarea>
+              <textarea
+                class="form-control address-ta"
+                name="address"
+                rows="2"
+                v-bind:id="'address' + index"
+                v-model="bookmark.address"
+                disabled
+              ></textarea>
               <div class="edit-delete">
-                <button class="btn edit-btn" v-on:click="editAddress(index)"></button>
-                <button class="btn delete-btn" v-on:click="deleteAddress(index)"></button>
+                <button
+                  class="btn edit-btn"
+                  v-on:click="editAddress(index)"
+                ></button>
+                <button
+                  class="btn delete-btn"
+                  v-on:click="deleteAddress(index)"
+                ></button>
               </div>
             </div>
           </div>
@@ -34,43 +89,76 @@
     </article>
     <div class="footer"></div>
     <modal-page>
-      <button slot="modal-btn" class="fixed-bottom plus-btn" id="plus" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+      <button
+        slot="modal-btn"
+        class="fixed-bottom plus-btn"
+        id="plus"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      ></button>
       <h5 slot="title">추가할 이름과 주소를 입력하세요.</h5>
       <span slot="body1" class="modal-body1">이름</span>
-      <input slot="input1" v-model="newName" type="text" class="form-control modal-input" required>
+      <input
+        slot="input1"
+        type="text"
+        class="form-control modal-input"
+        v-model="newName"
+        required
+      />
       <span slot="body2">주소</span>
-      <textarea slot="input2" v-model="newAddress" class="form-control modal-input modal-ta" rows="2" required></textarea>
-      <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-      <button slot="modal-submit-btn" type="button" class="btn btn-success" v-on:click="createAddress">추가</button>
+      <textarea
+        slot="input2"
+        class="form-control modal-input modal-ta"
+        rows="2"
+        v-model="newAddress"
+        required
+      ></textarea>
+      <button
+        slot="modal-clost-btn"
+        type="button"
+        class="btn btn-outline-secondary"
+        v-on:click="clearModal"
+        data-bs-dismiss="modal"
+      >
+        닫기
+      </button>
+      <button
+        slot="modal-submit-btn"
+        type="button"
+        class="btn btn-success"
+        v-on:click="createAddress"
+      >
+        추가
+      </button>
     </modal-page>
   </div>
 </template>
 
 <script>
-import ModalPage from './ModalPage.vue';
+import ModalPage from "./ModalPage.vue";
 import {
   fetchBookmark,
   createBookmark,
   editBookmark,
   deleteBookmark,
   updateStar,
-  } from '../api/index.js';
+} from "../api/index.js";
 
 export default {
   components: { ModalPage },
   data() {
     return {
-      newName: '',
-      newAddress: '',
+      newName: "",
+      newAddress: "",
       bookmarks: [],
-    }
+    };
   },
   methods: {
     isBookmark(star) {
-      return (star === 0)? 'bookmark-star-btn' : null;
+      return star === 0 ? "bookmark-star-btn" : null;
     },
     async bookmarkData() {
-      if(this.$store.state.email != '') {
+      if (this.$store.state.email != "") {
         const user = {
           email: this.$store.state.email,
         };
@@ -81,32 +169,33 @@ export default {
     async createAddress() {
       try {
         let name = this.newName;
-        if(name === null) return;
+        if (name === null) return;
         let address = this.newAddress;
-        if(address === null) return;
+        if (address === null) return;
 
         name = name.trim();
         address = address.trim();
-        
-        if(name && address && this.$store.state.email !== '') {
-          if(address.substring(0, 8) !== 'https://' && address.substring(0, 7) !== 'http://')
-            address = 'https://' + address;
+
+        if (name && address && this.$store.state.email !== "") {
+          if (
+            address.substring(0, 8) !== "https://" &&
+            address.substring(0, 7) !== "http://"
+          )
+            address = "https://" + address;
 
           const user = {
             email: this.$store.state.email,
             star: 1,
             name,
-            address
+            address,
           };
           await createBookmark(user);
-          
+
           this.clearModal();
           this.$router.go(this.$router.currentRoute);
-        }
-        else
-          alert('[ERROR] 다시 입력해주세요.');
+        } else alert("[ERROR] 다시 입력해주세요.");
       } catch (error) {
-        alert('[ERROR] 다시 시도해주세요.');
+        alert("[ERROR] 다시 시도해주세요.");
         console.log(error);
       }
     },
@@ -121,20 +210,18 @@ export default {
       try {
         let name = document.querySelector(`#addressAnchor${index}`).textContent;
 
-        let confirmflag = confirm('삭제하시겠습니까?');
+        let confirmflag = confirm("삭제하시겠습니까?");
 
-        if(confirmflag) {
-          if(this.$store.state.email != '') {
+        if (confirmflag) {
+          if (this.$store.state.email != "") {
             const user = {
               email: this.$store.state.email,
-              name
+              name,
             };
             await deleteBookmark(user);
-            alert('삭제되었습니다');
+            alert("삭제되었습니다");
             this.$router.go(this.$router.currentRoute);
-          }
-          else
-            alert('[ERROR] 다시 시도해주세요');
+          } else alert("[ERROR] 다시 시도해주세요");
         }
       } catch (error) {
         console.log(error);
@@ -150,47 +237,52 @@ export default {
         let nextAddress = document.querySelector(`#address${index}`);
         let input = document.querySelector(`#addressInput${index}`);
         let anchor = document.querySelector(`#addressAnchor${index}`);
-        
+
         // 수정모드
-        if(!addressName.classList.contains('display-none')) {
-          addressName.classList.toggle('display-none');
-          input.classList.toggle('display-none');
+        if (!addressName.classList.contains("display-none")) {
+          addressName.classList.toggle("display-none");
+          input.classList.toggle("display-none");
           nextAddress.disabled = false;
         }
         // 수정완료
         else {
-          let confirmflag = confirm('저장하시겠습니까?');
+          let confirmflag = confirm("저장하시겠습니까?");
 
-          if(confirmflag) {
+          if (confirmflag) {
             input.value = input.value.trim();
             nextAddress.value = nextAddress.value.trim();
 
-            if(this.$store.state.email != '' && input.value != '' && nextAddress.value != '') {
+            if (
+              this.$store.state.email != "" &&
+              input.value != "" &&
+              nextAddress.value != ""
+            ) {
               // https로 저장 (http는 그대로 저장)
               let checkHttps = nextAddress.value;
 
-              if(checkHttps.substring(0, 8) !== 'https://' && checkHttps.substring(0, 7) !== 'http://')
-                checkHttps = 'https://' + checkHttps;
+              if (
+                checkHttps.substring(0, 8) !== "https://" &&
+                checkHttps.substring(0, 7) !== "http://"
+              )
+                checkHttps = "https://" + checkHttps;
 
               // 서버 작업
               const user = {
                 email: this.$store.state.email,
                 name: anchor.textContent,
                 nextName: input.value,
-                nextAddress: checkHttps
+                nextAddress: checkHttps,
               };
               await editBookmark(user);
 
               // 화면 작업
-              addressName.classList.toggle('display-none');
-              input.classList.toggle('display-none');
+              addressName.classList.toggle("display-none");
+              input.classList.toggle("display-none");
               nextAddress.value = checkHttps;
               nextAddress.disabled = true;
               anchor.textContent = input.value;
               anchor.href = nextAddress.value;
-            }
-            else
-              alert('[ERROR] 다시 시도해주세요');
+            } else alert("[ERROR] 다시 시도해주세요");
           }
         }
       } catch (error) {
@@ -199,31 +291,32 @@ export default {
     },
     async toggleStar(index) {
       try {
-        const star = (this.bookmarks[index].star == 0)? 1 : 0;
+        const star = this.bookmarks[index].star == 0 ? 1 : 0;
 
         const user = {
           email: this.$store.state.email,
           star,
           name: this.bookmarks[index].name,
-          address: this.bookmarks[index].address
+          address: this.bookmarks[index].address,
         };
-        
+
         const { data } = await updateStar(user);
-        
-        if(data.star) {
-          document.querySelector(`#bookmark${index}`).classList.toggle('bookmark-star-btn');
+
+        if (data.star) {
+          document
+            .querySelector(`#bookmark${index}`)
+            .classList.toggle("bookmark-star-btn");
 
           this.$router.go(this.$router.currentRoute);
-        } else
-          alert('[ERROR] 다시 시도해주세요.');
+        } else alert("[ERROR] 다시 시도해주세요.");
       } catch (error) {
         console.log(error);
       }
     },
     clearModal() {
-      this.newName = '';
-      this.newAddress = '';
-    }
+      this.newName = "";
+      this.newAddress = "";
+    },
   },
   async created() {
     await this.bookmarkData();
@@ -233,7 +326,7 @@ export default {
     //   });
     // }
   },
-}
+};
 </script>
 
 <style>
@@ -281,8 +374,8 @@ export default {
   padding: 0 0;
   font-size: 20px;
   border: none;
-  border-bottom: thin ridge silver ;
-  color: #005A34;
+  border-bottom: thin ridge silver;
+  color: #005a34;
   background-color: transparent;
 }
 
@@ -291,8 +384,8 @@ export default {
   outline: none;
   box-shadow: none;
   border: none;
-  border-bottom: thin ridge black ;
-  color: #005A34;
+  border-bottom: thin ridge black;
+  color: #005a34;
   background-color: transparent;
 }
 
@@ -380,7 +473,7 @@ export default {
 .edit-btn:focus,
 .edit-btn:active {
   outline: none;
-  box-shadow: none;  
+  box-shadow: none;
 }
 
 .bookmark-body {
@@ -389,7 +482,6 @@ export default {
   align-items: center;
   padding: 10px;
 }
-
 
 /* textarea Enable - Disable */
 .address-ta {
@@ -405,7 +497,6 @@ export default {
   background-color: rgba(18, 18, 18, 1);
 }
 
-
 /* textarea Scroll */
 .address-ta:focus {
   background-color: rgba(18, 18, 18, 1);
@@ -417,7 +508,7 @@ export default {
   width: 6px;
 }
 .address-ta::-webkit-scrollbar-track {
-  background-color: rgba(18, 18, 18, 1);  
+  background-color: rgba(18, 18, 18, 1);
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -430,7 +521,6 @@ export default {
   width: 0;
   height: 0;
 }
-
 
 /* Edit, Delete Btn */
 .edit-delete {
@@ -471,11 +561,11 @@ export default {
   height: 2.5rem;
   background: url(../assets/plus.svg) center center no-repeat;
   background-size: contain;
-  background-color: #00AC7C;
+  background-color: #00ac7c;
 }
 
 .modal-input:focus {
-  border: thin solid #005A34;
+  border: thin solid #005a34;
   outline: none;
   box-shadow: none;
 }
@@ -495,5 +585,4 @@ export default {
     width: 15rem;
   }
 }
-
 </style>
