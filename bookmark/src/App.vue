@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue';
+import NavBar from "./components/NavBar.vue";
 
 export default {
   components: {
     NavBar,
   },
-}
+};
 </script>
 
 <style>
@@ -22,9 +22,8 @@ export default {
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   background-color: #121212;
-  /* background-color: white; */
 }
 
 a:hover,
@@ -36,7 +35,7 @@ a {
 button,
 input,
 textarea {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   font-size: 16px;
 }
 

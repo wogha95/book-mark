@@ -1,62 +1,109 @@
 <template>
   <article class="mypage">
     <div class="mypage-header">
-      <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
+      <button type="button" class="btn cancel-btn" v-on:click="goBack"></button>
       <h1><strong>My Page</strong></h1>
       <label class="just-space"></label>
     </div>
     <div class="mypage-form">
       <div class="form-floating">
-        <input type="email" class="form-control mypage-input" v-bind:value="$store.state.email" id="email" placeholder="email@abc.com" disabled>
+        <input
+          type="email"
+          class="form-control mypage-input"
+          id="email"
+          placeholder="email@abc.com"
+          v-bind:value="$store.state.email"
+          disabled
+        />
         <label class="mypage-label" for="email">ID (Email)</label>
       </div>
       <div class="update-delete-bg">
         <modal-page>
-          <button slot="modal-btn" v-on:click="updatePw" type="button" class="btn btn-outline-primary update-pw-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">비밀번호 변경</button>
+          <button
+            slot="modal-btn"
+            type="button"
+            class="btn btn-outline-primary update-pw-btn"
+            v-on:click="updatePw"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            비밀번호 변경
+          </button>
           <h5 slot="title">비밀번호를 입력해주세요.</h5>
           <span slot="body1" class="modal-body1">기존 비밀번호</span>
-          <input slot="input1" v-model="pwBefore" type="password" class="form-control modal-input" required>
+          <input
+            slot="input1"
+            type="password"
+            class="form-control modal-input"
+            v-model="pwBefore"
+            required
+          />
           <span slot="body2">변경할 비밀번호</span>
-          <input slot="input2" v-model="pwAfter" type="password" class="form-control modal-input" required>
-          <button slot="modal-clost-btn" v-on:click="clearModal" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-          <button slot="modal-submit-btn" v-bind:disabled="!isPwValid" type="button" class="btn btn-success" v-on:click="updatePw">변경</button>
+          <input
+            slot="input2"
+            type="password"
+            class="form-control modal-input"
+            v-model="pwAfter"
+            required
+          />
+          <button
+            slot="modal-clost-btn"
+            type="button"
+            class="btn btn-outline-secondary"
+            v-on:click="clearModal"
+            data-bs-dismiss="modal"
+          >
+            닫기
+          </button>
+          <button
+            slot="modal-submit-btn"
+            type="button"
+            class="btn btn-success"
+            v-bind:disabled="!isPwValid"
+            v-on:click="updatePw"
+          >
+            변경
+          </button>
         </modal-page>
         <span>|</span>
-        <button v-on:click="deleteAccount" type="button" class="btn btn-outline-primary delete-account-btn">회원 탈퇴</button>
+        <button
+          type="button"
+          class="btn btn-outline-primary delete-account-btn"
+          v-on:click="deleteAccount"
+        >
+          회원 탈퇴
+        </button>
       </div>
     </div>
   </article>
 </template>
 
 <script>
-import ModalPage from './ModalPage.vue';
-import {
-  updateUser,
-  deleteUser
-  } from '../api/index.js';
+import ModalPage from "./ModalPage.vue";
+import { updateUser, deleteUser } from "../api/index.js";
 
 export default {
   data() {
     return {
-      pwBefore: '',
-      pwAfter: ''
-    }
+      pwBefore: "",
+      pwAfter: "",
+    };
   },
   computed: {
     isPwValid() {
-      return (this.pwBefore !== '') && (this.pwAfter !== '');
-    }
+      return this.pwBefore !== "" && this.pwAfter !== "";
+    },
   },
   components: {
-    ModalPage
+    ModalPage,
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
     clearModal() {
-      this.pwBefore = '';
-      this.pwAfter = '';
+      this.pwBefore = "";
+      this.pwAfter = "";
     },
     async updatePw() {
       try {
@@ -64,65 +111,57 @@ export default {
         let pwAfter = this.pwAfter;
         pwBefore = pwBefore.trim();
         pwAfter = pwAfter.trim();
-        
+
         // 정확한 비밀번호를 입력한 경우
-        if(pwBefore && pwAfter) {
+        if (pwBefore && pwAfter) {
           const user = {
             email: this.$store.state.email,
             pwBefore: pwBefore,
-            pwAfter: pwAfter
-          }
-          
+            pwAfter: pwAfter,
+          };
+
           const { data } = await updateUser(user);
-          
-          if(data.update)
-            alert('비밀번호가 변경되었습니다.');
-          else
-            alert('[ERROR] 다시 시도해주세요');
+
+          if (data.update) alert("비밀번호가 변경되었습니다.");
+          else alert("[ERROR] 다시 시도해주세요");
         }
-        
       } catch (error) {
-        alert('[ERROR] 다시 시도해주세요');
+        alert("[ERROR] 다시 시도해주세요");
         console.log(error);
       }
     },
     async deleteAccount() {
       try {
-        let checkPw = prompt('비밀번호를 입력해주세요');
+        let checkPw = prompt("비밀번호를 입력해주세요");
         checkPw = checkPw.trim();
-        
+
         // ESC 키를 누른 경우
-        if(checkPw === null)
-          return;
+        if (checkPw === null) return;
         // 정확한 비밀번호를 입력한 경우
-        else if(checkPw) {
+        else if (checkPw) {
           const user = {
             email: this.$store.state.email,
-            pw: checkPw
-          }
+            pw: checkPw,
+          };
 
           const { data } = await deleteUser(user);
-          
-          if(data.delete) {
-            alert('계정 삭제되었습니다.');
-            this.$store.commit('setLogout');
-            this.$router.push('/main');
-          }
-          else
-            alert('[ERROR] 다시 시도해주세요');
+
+          if (data.delete) {
+            alert("계정 삭제되었습니다.");
+            this.$store.commit("setLogout");
+            this.$router.push("/main");
+          } else alert("[ERROR] 다시 시도해주세요");
         }
-        
       } catch (error) {
-        alert('[ERROR] 다시 시도해주세요');
+        alert("[ERROR] 다시 시도해주세요");
         console.log(error);
       }
-    }
+    },
   },
   beforeCreate() {
-    if(!sessionStorage.getItem('bookmark'))
-      this.$router.push('/main');
+    if (!sessionStorage.getItem("bookmark")) this.$router.push("/main");
   },
-}
+};
 </script>
 
 <style>
@@ -182,7 +221,7 @@ h1 {
 .done-btn:focus,
 .done-btn:active {
   outline: none;
-  box-shadow: none;  
+  box-shadow: none;
 }
 
 .mypage-form {
@@ -253,7 +292,7 @@ h1 {
 }
 
 .modal-input:focus {
-  border: thin solid #005A34;
+  border: thin solid #005a34;
   outline: none;
   box-shadow: none;
 }
@@ -261,5 +300,4 @@ h1 {
 .modal-ta {
   resize: none;
 }
-
 </style>

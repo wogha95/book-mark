@@ -3,26 +3,76 @@
     <form v-on:submit.prevent="registerForm">
       <div class="register-header">
         <router-link to="/main">
-          <button v-on:click="goBack" type="button" class="btn cancel-btn"></button>
+          <button
+            type="button"
+            class="btn cancel-btn"
+            v-on:click="goBack"
+          ></button>
         </router-link>
         <h1><strong>Register</strong></h1>
-        <button v-bind:disabled="!isFormValid" type="submit" class="btn done-btn"></button>
+        <button
+          type="submit"
+          class="btn done-btn"
+          v-bind:disabled="!isFormValid"
+        ></button>
       </div>
       <div class="register-form">
         <div class="form-floating">
-          <input type="email" class="form-control register-input" id="email" placeholder="email@abc.com"  tabindex="11" v-model="email" required>
+          <input
+            type="email"
+            class="form-control register-input"
+            id="email"
+            placeholder="email@abc.com"
+            tabindex="11"
+            v-model="email"
+            required
+          />
           <label class="register-label" for="email">ID (Email address)</label>
-          <button v-bind:class="isEmail" v-on:click="clearId" type="button" class="btn-close btn-close-white register-clear-btn" aria-label="Delete ID inputbox"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white register-clear-btn"
+            v-bind:class="isEmail"
+            v-on:click="clearId"
+            aria-label="Delete ID inputbox"
+          ></button>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control register-input" id="pw" placeholder="Password"  tabindex="12" v-model="pw" required>
+          <input
+            type="password"
+            class="form-control register-input"
+            id="pw"
+            placeholder="Password"
+            tabindex="12"
+            v-model="pw"
+            required
+          />
           <label class="register-label" for="pw">Password</label>
-          <button v-bind:class="isPassword" v-on:click="clearPw" type="button" class="btn-close btn-close-white register-clear-btn" aria-label="Delete PW inputbox"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white register-clear-btn"
+            v-bind:class="isPassword"
+            v-on:click="clearPw"
+            aria-label="Delete PW inputbox"
+          ></button>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control register-input" id="pw2" placeholder="Password Again"  tabindex="13" v-model="pw2" required>
+          <input
+            type="password"
+            class="form-control register-input"
+            id="pw2"
+            placeholder="Password Again"
+            tabindex="13"
+            v-model="pw2"
+            required
+          />
           <label class="register-label" for="pw2">Password Again</label>
-          <button v-bind:class="isPassword2" v-on:click="clearPw2" type="button" class="btn-close btn-close-white register-clear-btn" aria-label="Delete PW2 inputbox"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white register-clear-btn"
+            v-bind:class="isPassword2"
+            v-on:click="clearPw2"
+            aria-label="Delete PW2 inputbox"
+          ></button>
         </div>
       </div>
     </form>
@@ -30,67 +80,70 @@
 </template>
 
 <script>
-import { registerUser } from '../api/index.js';
-import { validateEmail } from '../utils/validation.js';
+import { registerUser } from "../api/index.js";
+import { validateEmail } from "../utils/validation.js";
 
 export default {
   data() {
     return {
-      email: '',
-      pw: '',
-      pw2: '',
-    }
+      email: "",
+      pw: "",
+      pw2: "",
+    };
   },
   computed: {
     isFormValid() {
-      return validateEmail(this.email) && (this.pw === this.pw2) && (this.pw != '' && this.pw2 != '');
+      return (
+        validateEmail(this.email) &&
+        this.pw === this.pw2 &&
+        this.pw != "" &&
+        this.pw2 != ""
+      );
     },
     isEmail() {
-      return (this.email == '')? 'disapper' : null;
+      return this.email == "" ? "disapper" : null;
     },
     isPassword() {
-      return (this.pw == '')? 'disapper' : null;
+      return this.pw == "" ? "disapper" : null;
     },
     isPassword2() {
-      return (this.pw2 == '')? 'disapper' : null;
-    }
+      return this.pw2 == "" ? "disapper" : null;
+    },
   },
   methods: {
     async registerForm() {
       try {
         const userData = {
           email: this.email,
-          pw: this.pw
-        }
+          pw: this.pw,
+        };
         const { data } = await registerUser(userData);
-        if(data.register) {
-          this.$router.push('/main');
-        }
-        else {
-          alert('이미 있는 ID (Email) 입니다.')
+        if (data.register) {
+          this.$router.push("/main");
+        } else {
+          alert("이미 있는 ID (Email) 입니다.");
         }
       } catch (error) {
         console.log(error);
       }
     },
     clearId() {
-      this.email = '';
+      this.email = "";
     },
     clearPw() {
-      this.pw = '';
+      this.pw = "";
     },
     clearPw2() {
-      this.pw2 = '';
+      this.pw2 = "";
     },
     goBack() {
       this.$router.go(-1);
-    }
+    },
   },
   beforeCreate() {
-    if(sessionStorage.getItem('bookmark'))
-      this.$router.push('/main');
+    if (sessionStorage.getItem("bookmark")) this.$router.push("/main");
   },
-}
+};
 </script>
 
 <style>
@@ -125,7 +178,7 @@ h1 {
 .done-btn:focus,
 .done-btn:active {
   outline: none;
-  box-shadow: none;  
+  box-shadow: none;
 }
 
 .cancel-btn {
@@ -190,7 +243,7 @@ h1 {
   color: rgb(197, 197, 197);
 }
 
-.form-floating>.form-control {
+.form-floating > .form-control {
   padding-right: 2.5rem;
 }
 

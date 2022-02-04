@@ -1,24 +1,44 @@
 <template>
   <article class="guest">
     <div class="guest-row">
-      <button v-on:click="openNavbar" class="start-btn"><strong class="text-box">시작하기</strong></button>
+      <button class="start-btn" v-on:click="openNavbar">
+        <strong class="text-box">시작하기</strong>
+      </button>
     </div>
     <div class="guest-row">
       <strong class="text-box">어느 기기든</strong>
       <div class="slide-box">
-        <div id="carousel1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500" data-bs-pause="false">
+        <div
+          id="carousel1"
+          class="carousel slide"
+          data-bs-ride="carousel"
+          data-bs-interval="1500"
+          data-bs-pause="false"
+        >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="../assets/guest-mobile.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-mobile.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-tablet.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-tablet.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-laptop.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-laptop.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-desktop.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-desktop.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
           </div>
         </div>
@@ -26,22 +46,40 @@
     </div>
     <div class="guest-row">
       <div class="slide-box">
-        <div id="carousel2" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500" data-bs-pause="false">
+        <div
+          class="carousel slide"
+          id="carousel2"
+          data-bs-ride="carousel"
+          data-bs-interval="1500"
+          data-bs-pause="false"
+        >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="../assets/guest-chrome.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-chrome.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-safari.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-safari.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-edge.svg" class="d-block w-100 imgs">
+              <img src="../assets/guest-edge.svg" class="d-block w-100 imgs" />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-firefox.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-firefox.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
             <div class="carousel-item">
-              <img src="../assets/guest-iexplore.svg" class="d-block w-100 imgs">
+              <img
+                src="../assets/guest-iexplore.svg"
+                class="d-block w-100 imgs"
+              />
             </div>
           </div>
         </div>
@@ -52,7 +90,6 @@
       <strong class="text-box text-strong">즐겨찾기</strong>
       <strong class="text-box">를 이용하세요</strong>
     </div>
-    
   </article>
 </template>
 
@@ -60,10 +97,10 @@
 export default {
   methods: {
     openNavbar() {
-      document.querySelector('#navbarNav').classList.add('show');
-    }
+      document.querySelector("#navbarNav").classList.add("show");
+    },
   },
-}
+};
 </script>
 
 <style>
@@ -99,7 +136,7 @@ export default {
   height: 40px;
   border: none;
   border-radius: 10px;
-  background-color: #C9C9C9;
+  background-color: #c9c9c9;
 }
 
 .text-box {
@@ -139,7 +176,7 @@ export default {
 }
 
 @media screen and (min-width: 992px) {
-.guest {
+  .guest {
     height: 70vh;
   }
 
@@ -157,5 +194,4 @@ export default {
     margin: 30px auto;
   }
 }
-
 </style>

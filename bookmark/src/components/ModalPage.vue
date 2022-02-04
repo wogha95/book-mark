@@ -1,14 +1,23 @@
 <template>
   <article>
     <slot name="modal-btn">modal-btn</slot>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <slot class="modal-title" name="title">Modal Title</slot>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <slot name="body1">Modal Body1</slot>
@@ -27,10 +36,7 @@
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
